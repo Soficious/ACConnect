@@ -5,13 +5,11 @@ import java.util.Iterator;
 /**
  * Created by ricardo on 27-02-2017.
  */
-public class ClientHelper implements Iterable {
+public class HtttpHelper implements Iterable {
 
-    //iterates in the linked lists
-    //Input data BufferedReader
-    //OutPut data DataOutputStream
+
+
     //String to request Headers
-    //
 
 
     /**
@@ -40,6 +38,8 @@ public class ClientHelper implements Iterable {
     }
 
     public static String contentLength(long lenght) {
+
+        //TODO: instanciar ficheiro...passar o tamanho
 
         //an extra line is needed before content
         return "Content-Length: " + lenght + "\r\n\r\n";
