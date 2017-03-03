@@ -1,5 +1,8 @@
 package org.academiadecodigo.bootcamp.test;
 
+import org.academiadecodigo.bootcamp.client.Cadet;
+import org.academiadecodigo.bootcamp.client.Company;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,8 +15,9 @@ import java.util.Scanner;
  */
 public class User implements Runnable {
 
+
     String name;
-    String type;
+    static String type;
     String host;
     int port;
     Socket client = null;
@@ -51,6 +55,9 @@ public class User implements Runnable {
 
     }
 
+    Cadet cadet = new Cadet();
+    Company company = new Company();
+
     @Override
     public void run() {
 
@@ -71,8 +78,14 @@ public class User implements Runnable {
                 out.println(message);
                 message = message();
                 out.println(message);
+            }
 
 
+            //SIMPLE LOGIN VERIFICATION
+            if (type.toUpperCase().equals(Cadet.CadetInfo.values()) || type.toUpperCase().equals(Company.CompanyInfo.values())) {
+                //proceed with next step...not sure what to copy in
+            } else {
+                System.out.println("Invalid login, please try again.");
             }
 
 

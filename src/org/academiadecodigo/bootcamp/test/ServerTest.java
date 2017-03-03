@@ -1,5 +1,6 @@
 package org.academiadecodigo.bootcamp.test;
 
+import org.academiadecodigo.bootcamp.client.Cadet;
 import org.academiadecodigo.bootcamp.client.Company;
 
 import java.io.*;
@@ -54,7 +55,7 @@ public class ServerTest implements Runnable {
             serverSocket = new ServerSocket(port);
 
 
-        clientSocket = serverSocket.accept();
+            clientSocket = serverSocket.accept();
 
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
@@ -62,39 +63,48 @@ public class ServerTest implements Runnable {
 
             out.println("who are you");
 
-
             while (true) {
                 System.out.println("in the while");
 
-                String message = in.readLine();
+                //SIMPLE LOGIN VERIFICATION
+                //if (User.type.toUpperCase().equals(Cadet.CadetInfo.values().toString()) || User.type.toUpperCase().equals(Company.CompanyInfo.values().toString())) {
 
-                switch (message) {
-                    case ("cadet"):
-                        System.out.println("in the if cadet");
-                        description();
-                        break;
-                    case ("next"):
-                        System.out.println("in the if next");
-                        description();
-                        break;
-                    case ("moreinfo"):
-                        path();
-                        break;
-                    case ("match"):
-                        description();
-                        break;
-                    case ("/close"):
-                        out.close();
-                        in.close();
-                        clientSocket.close();
-                        serverSocket.close();
-                }
+
+                    String message = in.readLine();
+
+                    switch (message) {
+                        case ("cadet"):
+                            System.out.println("in the if cadet");
+                            description();
+                            break;
+                        case ("next"):
+                            System.out.println("in the if next");
+                            description();
+                            break;
+                        case ("moreinfo"):
+                            path();
+                            break;
+                        case ("match"):
+                            description();
+                            break;
+                        case ("/close"):
+                            out.close();
+                            in.close();
+                            clientSocket.close();
+                            serverSocket.close();
+                        default:
+                            System.out.println("Something went terribly wrong!");
+                    }
+
+//                } else {
+//                    System.out.println("Invalid login, please try again.");
+//                    out.println("who are you");
+//                }
             }
 
-
-        }catch (IOException e) {
-        e.printStackTrace();
-    }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String match() {
@@ -126,7 +136,7 @@ public class ServerTest implements Runnable {
     public void path() {
 
         for (int i = currentCompany; i < Company.CompanyInfo.values().length; i++) {
-           out.println(Company.CompanyInfo.values()[i].file);
+            out.println(Company.CompanyInfo.values()[i].file);
             break;
         }
     }

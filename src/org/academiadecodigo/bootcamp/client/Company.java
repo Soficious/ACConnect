@@ -8,18 +8,9 @@ import java.io.File;
  */
 public class Company extends Client {
 
-    /**
-     * Class construtor.
-     * Receive String and sets the name
-     * insticiates a File with the correct path using the name
-     *
-     */
     public Company() {
         super();
     }
-
-
-
 
     public int currentCompany = -1;
 
@@ -35,7 +26,6 @@ public class Company extends Client {
     }
 
     public void nextCompanyMotto() {
-
         for (int i = currentCompany; i < CompanyInfo.values().length; i++) {
             System.out.println(CompanyInfo.values()[i].description);
             break;
@@ -43,9 +33,8 @@ public class Company extends Client {
     }
 
     public void nextCompanyWebpage() {
-
         for (int i = currentCompany; i < CompanyInfo.values().length; i++) {
-            System.out.println(CompanyInfo.values()[i].description);
+            System.out.println(CompanyInfo.values()[i].file);
             break;
         }
     }
@@ -78,15 +67,15 @@ public class Company extends Client {
 
     }
 
-    public static void main(String[] args) {
-        Company a = new Company();
-        a.nextCompany();
-        a.nextCompanyMotto();
-        a.nextCompanyMotto();
-        a.nextCompany();
-        a.nextCompanyMotto();
-
-    }
+//    public static void main(String[] args) {
+//        Company a = new Company();
+//        a.nextCompany();
+//        a.nextCompanyMotto();
+//        a.nextCompanyMotto();
+//        a.nextCompany();
+//        a.nextCompanyMotto();
+//
+//    }
 
     public enum CompanyInfo {
         GOOGLE("Are you feeling lucky?", "resources/company/logicalis.pdf"),
@@ -103,8 +92,6 @@ public class Company extends Client {
             this.description = desc;
             file = new File(path);
         }
-
-
 
     }
 

@@ -7,17 +7,69 @@ import java.io.File;
  */
 public class Cadet extends Client {
 
-    /**
-     * Class construtor.
-     * Receive String and sets the name
-     * insticiates a File with the correct path using the name
-     *
-     * @param name
-     * @param moto
-     */
-    public Cadet(String name, String moto) {
-        super();
+    public Cadet() {super(); }
+
+    public int currentCadet = -1;
+
+    public void nextCadet() {
+        currentCadet++;
+        if (currentCadet == CadetInfo.values().length) {
+            currentCadet = 0;
+        }
+        for (int i = currentCadet; i < CadetInfo.values().length; i++) {
+            System.out.println(CadetInfo.values()[i]);
+            break;
+        }
     }
+
+    public void nextCadetPitch() {
+        for (int i = currentCadet; i < CadetInfo.values().length; i++) {
+            System.out.println(CadetInfo.values()[i].saying);
+            break;
+        }
+    }
+
+    public void nextCadetCV() {
+        for (int i = currentCadet; i < CadetInfo.values().length; i++) {
+            System.out.println(CadetInfo.values()[i].filepath);
+            break;
+        }
+    }
+
+    static void printCadetPitch(CadetInfo name) {
+        switch (name) {
+            case RENATO:
+                System.out.println(CadetInfo.RENATO.saying);
+                break;
+            case SOFIA:
+                System.out.println(CadetInfo.SOFIA.saying);
+                break;
+            case RICARDO:
+                System.out.println(CadetInfo.RICARDO.saying);
+                break;
+            case JESSE:
+                System.out.println(CadetInfo.JESSE.saying);
+                break;
+            case PEDRO:
+                System.out.println(CadetInfo.PEDRO.saying);
+                break;
+            default:
+                System.out.println("Not a valid cadet!");
+
+        }
+
+    }
+
+
+
+//    public static void main(String[] args) {
+//        Cadet a = new Cadet();
+//        a.nextCadet();
+//        a.nextCadetPitch();
+//        a.nextCadet();
+//        a.nextCadetPitch();
+//        a.nextCadetPitch();
+//    }
 
     public enum CadetInfo {
         RENATO("I'm always the loudest person in the room!", "resources/codecadet/codeCadet.pdf"),
@@ -34,15 +86,6 @@ public class Cadet extends Client {
             filepath = new File(cfile);
         }
 
-        public String saying() {
-            return this.saying;
-        }
-
-        public static void main(String[] args) {
-            for (CadetInfo mantra : CadetInfo.values()) {
-                System.out.println("Cadet pitch: " + mantra.saying());
-            }
-        }
     }
 
 }
