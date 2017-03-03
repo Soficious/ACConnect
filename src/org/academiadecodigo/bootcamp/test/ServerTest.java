@@ -1,5 +1,7 @@
 package org.academiadecodigo.bootcamp.test;
 
+import org.academiadecodigo.bootcamp.client.Company;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,6 +12,9 @@ import java.util.Scanner;
  */
 
 public class ServerTest implements Runnable {
+
+    int currentCompany = -1;
+    PrintWriter out = null;
 
     public static void main(String[] args) {
 
@@ -39,68 +44,57 @@ public class ServerTest implements Runnable {
     public void run() {
 
         int port = getPort();
-        PrintWriter out = null;
+
         BufferedReader in = null;
         ServerSocket serverSocket = null;
         Socket clientSocket = null;
 
+
         try {
             serverSocket = new ServerSocket(port);
 
-            clientSocket = serverSocket.accept();
+
+        clientSocket = serverSocket.accept();
 
             out = new PrintWriter(clientSocket.getOutputStream(), true);
 
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            System.out.println("estou a escuta");
-
-            String message = in.readLine();
-
-            while (!message.equals("/close")) {
-
-                if (message.equals("cadet")) {
-                    message = in.readLine();
+            out.println("who are you");
 
 
-                    if (message.equals("next")) {
-                        out.println(nextCompany());
+            while (true) {
+                System.out.println("in the while");
 
-                    }
-                    if (message.equals("moreinfo")) {
-                        out.println(moreInfo());
+                String message = in.readLine();
 
-                    }
-                    if (message.equals("match")) {
-                        out.println(match());
-
-
-                    }
+                switch (message) {
+                    case ("cadet"):
+                        System.out.println("in the if cadet");
+                        description();
+                        break;
+                    case ("next"):
+                        System.out.println("in the if next");
+                        description();
+                        break;
+                    case ("moreinfo"):
+                        path();
+                        break;
+                    case ("match"):
+                        description();
+                        break;
+                    case ("/close"):
+                        out.close();
+                        in.close();
+                        clientSocket.close();
+                        serverSocket.close();
                 }
-
-                System.out.println("estou aqui 2");
-                message = in.readLine();
             }
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        } finally {
-
-            try {
-
-                out.close();
-                in.close();
-                clientSocket.close();
-                serverSocket.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
+        }catch (IOException e) {
+        e.printStackTrace();
+    }
     }
 
     private String match() {
@@ -115,12 +109,47 @@ public class ServerTest implements Runnable {
         return moreInfo;
     }
 
-    private String nextCompany() {
+    public void description() {
 
-        String moreInfo = new String("here is your next company");
-        return moreInfo;
+        currentCompany++;
+        if (currentCompany == Company.CompanyInfo.values().length) {
+            currentCompany = 0;
+        }
+        for (int i = currentCompany; i < Company.CompanyInfo.values().length; i++) {
+
+            out.println(Company.CompanyInfo.values()[i].description);
+            break;
+
+        }
     }
 
+    public void path() {
+
+        for (int i = currentCompany; i < Company.CompanyInfo.values().length; i++) {
+           out.println(Company.CompanyInfo.values()[i].file);
+            break;
+        }
+    }
+
+
+    public enum CompanyInfo {
+        GOOGLE("Are you feeling lucky?", "resources/company/logicalis.pdf"),
+        LOGICALIS("We're Dutch and super cool!", "resources/company/logicalis.pdf"),
+        MICROSOFT("Open the Windows!", "resources/company/logicalis.pdf"),
+        ALTRAN("America first, France second!", "resources/company/logicalis.pdf"),
+        ACADEMIA("Stay here and Padawan with us!", "resources/company/logicalis.pdf"),
+        READINESSIT("Get ready to travel!", "resources/company/logicalis.pdf");
+
+        public final String description;
+        public final File file;
+
+        CompanyInfo(String desc, String path) {
+            this.description = desc;
+            file = new File(path);
+        }
+
+
+    }
 }
 
 

@@ -18,8 +18,8 @@ public abstract class Client {
      * Receive String and sets the name
      * insticiates a File with the correct path using the name
      */
-    public Client(String name, String moto) {
-        this.motto = moto;
+    public Client() {
+        this.motto = motto;
         this.name = name;
         this.file = new File("resources/company/" + name + ".pdf");
     }
