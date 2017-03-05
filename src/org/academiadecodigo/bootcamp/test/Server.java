@@ -60,7 +60,6 @@ public class Server {
 
     private static class Clienthandler implements Runnable {
 
-
         private int currentCompany = -1;
         private int currentCadet = -1;
         private PrintWriter out = null;
@@ -320,45 +319,7 @@ public class Server {
 
 
     }
-
-//    public enum CompanyInfo {
-//        GOOGLE("Are you feeling lucky?", "resources/company/logicalis.pdf"),
-//        LOGICALIS("We're Dutch and super cool!", "resources/company/logicalis.pdf"),
-//        MICROSOFT("Open the Windows!", "resources/company/logicalis.pdf"),
-//        ALTRAN("America first, France second!", "resources/company/logicalis.pdf"),
-//        ACADEMIA("Stay here and Padawan with us!", "resources/company/logicalis.pdf"),
-//        READINESSIT("Get ready to travel!", "resources/company/logicalis.pdf");
-//
-//        public final String description;
-//        public final File file;
-//
-//        CompanyInfo(String desc, String path) {
-//            this.description = desc;
-//            file = new File(path);
-//        }
-//
-//
-//    }
-//
-//    public enum CadetInfo {
-//
-//
-//        RENATO("I'm always the loudest person in the room!", "resources/codecadet/Renato.pdf"),
-//        SOFIA("Eh pa, honestamente não concordo!", "resources/codecadet/Sofia.pdf"),
-//        RICARDO("I have no battery!", "resources/codecadet/Ricardo.pdf"),
-//        JESSE("I fucking hate Fundão!", "resources/codecadet/Jesse.pdf"),
-//        PEDRO("My battery died too!", "resources/codecadet/Pedro.pdf");
-//
-//        public final String saying;
-//        public final File filepath;
-//
-//        CadetInfo(String pitch, String cfile) {
-//            this.saying = pitch;
-//            filepath = new File(cfile);
-//        }
-//
-//
-//    }
+    
 }
 
 
