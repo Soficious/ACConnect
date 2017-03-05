@@ -186,23 +186,6 @@ public class Server {
             }
         }
 
-        public void matchCadet() {
-
-            HashMap<Integer, String> mapCadet = new HashMap<Integer, String>();
-            mapCadet.put(1, String.valueOf(currentCadet));
-
-            mapCadet.put(1, "one");
-            mapCadet.put(2, "two");
-            Iterator<Integer> keyIterator = mapCadet.keySet().iterator();
-
-            while (keyIterator.hasNext()) {
-                Integer key = keyIterator.next();
-                System.out.println();
-            }
-
-
-        }
-
         public void companyList() {
 
             try {
@@ -319,7 +302,7 @@ public class Server {
 
 
     }
-    
+
 }
 
 
