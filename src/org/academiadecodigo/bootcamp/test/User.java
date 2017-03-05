@@ -16,18 +16,11 @@ public class User implements Runnable {
     String type;
     String host;
     int port;
-    Socket client = null;
+    Socket socket = null;
 
-
-    public static void main(String[] args) {
-
-        User user = new User();
-        user.UserConstrutor();
-        Thread userThread = new Thread(user);
-        userThread.start();
-
+    public User (Socket socket){
+        this.socket = socket;
     }
-
 
     private static String message() {
 
@@ -51,6 +44,16 @@ public class User implements Runnable {
 
     }
 
+    public void userConstrutor() {
+
+        host = "localhost";
+        port = 9999;
+        System.out.println("What is your name? ");
+        name = question();
+        System.out.println("Are you a cadet or company");
+        type = question();
+    }
+
     @Override
     public void run() {
 
@@ -60,9 +63,9 @@ public class User implements Runnable {
 
         try {
 
-            out = new PrintWriter(client.getOutputStream(), true);
+            out = new PrintWriter(socket.getOutputStream(), true);
 
-            in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String message = type;
 
@@ -71,8 +74,6 @@ public class User implements Runnable {
                 out.println(message);
                 message = message();
                 out.println(message);
-
-
             }
 
 
@@ -81,9 +82,8 @@ public class User implements Runnable {
         } finally {
 
             try {
-                in.close();
-                out.close();
-                client.close();
+
+                socket.close();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -95,26 +95,9 @@ public class User implements Runnable {
 
     }
 
-    /**
-     * Class Construtor
-     * receives a name
-     * receives a type
-     */
-    public void UserConstrutor() {
+    public static void main(String[] args) {
 
-
-        host = "localhost";
-        port = 9999;
-        System.out.println("What is your name? ");
-        name = question();
-        System.out.println("Are you a cadet or company");
-        type = question();
-
-        try {
-            client = new Socket(host, port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        User user;
 
     }
 

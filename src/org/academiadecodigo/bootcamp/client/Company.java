@@ -11,7 +11,7 @@ public class Company extends Client {
     /**
      * Class construtor.
      * Receive String and sets the name
-     * insticiates a File with the correct path using the name
+     * insticiates a File with the correct showCompanyFile using the name
      *
      */
     public Company() {

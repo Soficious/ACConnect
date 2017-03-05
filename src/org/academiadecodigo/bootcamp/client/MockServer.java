@@ -13,8 +13,8 @@ public class MockServer {
 
 
 
-//        for (CompanyInfo motto : CompanyInfo.values()) {
-//            System.out.println("Company motto: " + motto.description());
+//        for (CadetInfo motto : CadetInfo.values()) {
+//            System.out.println("Company motto: " + motto.showCompanysMoto());
 //        }
 //        for (CadetInfo mantra : CadetInfo.values()) {
 //            System.out.println("Cadet pitch: " + mantra.saying());
