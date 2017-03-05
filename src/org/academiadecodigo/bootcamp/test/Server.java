@@ -162,12 +162,14 @@ public class Server {
                                 showCadetsPitch();
                                 break;
                             } else {
+                                //TODO ADD TO LIST
                                 // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MORE INFO");
                                 showCadetsPitch();
                                 break;
                             }
 
                         case ("match"):
+                            //TODO ADD TO LIST
                             // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MOREINFO");
                             showCadetsPitch();
                             break;
@@ -249,6 +251,7 @@ public class Server {
                                 break;
                             } else {
                                 //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
+                                //TODO ADD TO LIST
                                 showCompanysMoto();
                                 break;
                             }
@@ -256,6 +259,7 @@ public class Server {
 
                         case ("match"):
                             System.out.println("dentro do match");
+                            //TODO ADD TO LIST
                             //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
                             showCompanysMoto();
                             break;
@@ -297,8 +301,7 @@ public class Server {
 
                 out.println("What is your name");
                 String message = in.readLine();
-                //pushNametoList(message);
-                String name = message;
+                //TODO METHOD LOGIN VERIFICATION OR ADD NEWONE
                 out.println("What are you?");
                 System.out.println("listening");
                 message = in.readLine();
