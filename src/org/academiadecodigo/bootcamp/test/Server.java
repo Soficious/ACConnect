@@ -58,16 +58,6 @@ public class Server {
         }
     }
 
-    /*
-      private void pushCadettoList(String name) {
-
-          userTypelist.add(new Cadet(name));
-      }
-
-      private void pushCompanytoList(String name) {
-          companyTypelist.add(new Company (name));
-      }
-  */
     private static class Clienthandler implements Runnable {
 
 
