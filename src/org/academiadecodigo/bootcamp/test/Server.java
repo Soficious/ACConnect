@@ -115,50 +115,41 @@ public class Server {
 
             try {
 
-                out.println("HERE'S A CANDIDATE");
-                out.println("choose MORE INFO, MATCH OR NEXT");
+                //out.println("HERE'S A CANDIDATE ...choose MOREINFO, MATCH OR NEXT");
                 showCadetsPitch();
 
                 while (true) {
 
-                    System.out.println("in the while of cadetslist");
                     CadetMessage = in.readLine();
 
                     switch (CadetMessage) {
                         case ("next"):
-                            System.out.println("in the if nex cadets");
-                            out.println("HERE'S ONE CADET");
-                            out.println("CHOOSE, NEXT OR MORE INFO");
+                           // out.println("HERE'S ONE CADET ....CHOOSE,NEXT OR MORE INFO");
                             showCadetsPitch();
                             break;
 
                         case ("moreinfo"):
                             showCadetsFile();
-                            out.println("CHOOSE NEXT OR MATCH");
-                            System.out.println("in moreinfo");
+                           // out.println("CHOOSE NEXT OR MATCH");
+
                             CadetMessage = in.readLine();
                             if (CadetMessage.equals("next")) {
-                                out.println("HERE'S ONE COMPANY");
+                               // out.println("HERE'S ONE CADET ....CHOOSE,NEXT OR MORE INFO");
                                 showCadetsPitch();
                                 break;
                             } else {
-                                out.println("YOU CHOOSE MATCH...NOW WAIT");
-                                out.println("HERE'S ONE COMPANY");
-                                out.println("CHOOSE, NEXT OR MORE INFO");
+                               // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MORE INFO");
                                 showCadetsPitch();
                                 break;
                             }
 
                         case ("match"):
-                            out.println("YOU CHOOSE MATCH...NOW WAIT");
-                            out.println("HERE'S ONE CADET");
-                            out.println("CHOOSE, NEXT OR MOREINFO");
+                           // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MOREINFO");
                             showCadetsPitch();
                             break;
 
                     }
                     if (CadetMessage.equals("/close")) {
-
 
                         out.close();
                         in.close();
@@ -184,50 +175,41 @@ public class Server {
 
             try {
 
-                out.println("HERE'S A COMPANY");
-                out.println("choose MORE INFO, MATCH OR NEXT");
+               // out.println("HERE'S A COMPANY...choose MORE INFO, MATCH OR NEXT");
                 showCompanysMoto();
 
 
                 while (true) {
 
-                    System.out.println("in the while of companylist");
                     CompanyMessage = in.readLine();
 
                     switch (CompanyMessage) {
                         case ("next"):
-                            System.out.println("in the if next company");
-                            out.println("HERE'S ONE COMPANY");
-                            out.println("CHOOSE, NEXT OR MORE INFO");
+                            //out.println("HERE'S ONE COMPANY...CHOOSE, NEXT OR MORE INFO");
                             showCompanysMoto();
                             break;
 
                         case ("moreinfo"):
                             showCompanyFile();
-                            out.println("CHOOSE NEXT OR MATCH");
-                            System.out.println("in moreinfo");
+                           // out.println("CHOOSE NEXT OR MATCH");
                             CompanyMessage = in.readLine();
 
-                            while(!CompanyMessage.equals("next")&&!(!CompanyMessage.equals("match"))){
-                                out.println("choose next or match");
+                            while (!CompanyMessage.equals("next") && !(!CompanyMessage.equals("match"))) {
+                                //out.println("choose next or match");
                                 CompanyMessage = in.readLine();
                             }
                             if (CompanyMessage.equals("next")) {
-                                out.println("HERE'S ONE COMPANY");
+                                //out.println("HERE'S ONE COMPANY...CHOOSE, NEXT OR MORE INFO");
                                 showCompanysMoto();
                                 break;
                             } else {
-                                out.println("YOU CHOOSE MATCH...NOW WAIT");
-                                out.println("HERE'S ONE COMPANY");
-                                out.println("CHOOSE, NEXT OR MORE INFO");
+                                //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
                                 showCompanysMoto();
                                 break;
                             }
 
                         case ("match"):
-                            out.println("YOU CHOOSE MATCH...NOW WAIT");
-                            out.println("HERE'S ONE COMPANY");
-                            out.println("CHOOSE, NEXT OR MOREINFO");
+                            //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
                             showCompanysMoto();
                             break;
 

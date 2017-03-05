@@ -1,5 +1,6 @@
 package org.academiadecodigo.bootcamp.test;
 
+import javax.sound.midi.Soundbank;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,17 +11,16 @@ import java.util.Scanner;
 /**
  * Created by Renato on 28/02/17.
  */
-public class User implements Runnable {
+public class User {
 
-    String name;
-    String type;
     String host;
     int port;
     Socket socket = null;
 
-    public User (Socket socket){
-        this.socket = socket;
-    }
+    PrintWriter out = null;
+
+    BufferedReader in = null;
+
 
     private static String message() {
 
@@ -48,18 +48,19 @@ public class User implements Runnable {
 
         host = "localhost";
         port = 9999;
-        System.out.println("What is your name? ");
-        name = question();
-        System.out.println("Are you a cadet or company");
-        type = question();
+
+        try {
+            socket = new Socket(host,port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
     public void run() {
 
-        PrintWriter out = null;
+        userConstrutor();
 
-        BufferedReader in = null;
+//        System.out.println("estou aqui");
 
         try {
 
@@ -67,13 +68,20 @@ public class User implements Runnable {
 
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            String message = type;
+//            System.out.println("estou aqui2");
+            String myMessage = "";
 
-            while (!message.equals("/close")) {
+            while (!myMessage.equals("/close")) {
 
-                out.println(message);
-                message = message();
-                out.println(message);
+//                System.out.println("entrei no while");
+
+                String serverMessage = in.readLine();
+                System.out.println(serverMessage);
+                myMessage = message();
+                out.println(myMessage);
+
+//                System.out.println("sai do while");
+
             }
 
 
@@ -97,7 +105,10 @@ public class User implements Runnable {
 
     public static void main(String[] args) {
 
-        User user;
+        User user = new User();
+
+        user.run();
+
 
     }
 
