@@ -4,6 +4,7 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import org.academiadecodigo.bootcamp.client.Cadet;
 import org.academiadecodigo.bootcamp.client.Company;
 
+import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -113,20 +114,70 @@ public class Server {
 
         }
 
+
+
         public void showCompanyFile() {
 
+            try {
+
+                File pdfFile = new File(String.valueOf(Company.CompanyInfo.values()[currentCompany].file));
+                if (pdfFile.exists()) {
+
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(pdfFile);
+                    } else {
+                        System.out.println("Awt Desktop is not supported!");
+                    }
+
+                } else {
+                    System.out.println("File is not exists!");
+                }
+
+                System.out.println("Done");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+        }
+
+            /*
             for (int i = currentCompany; i < Company.CompanyInfo.values().length; i++) {
                 out.println(Company.CompanyInfo.values()[i].file);
                 break;
             }
-        }
+            */
+
 
         public void showCadetsFile() {
+            try {
+                //Cadet.CadetInfo.values()[currentCadet].file)
 
+                File pdfFile = new File(String.valueOf(Cadet.CadetInfo.values()[currentCadet].filepath));
+                if (pdfFile.exists()) {
+
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(pdfFile);
+                    } else {
+                        System.out.println("Awt Desktop is not supported!");
+                    }
+
+                } else {
+                    System.out.println("File is not exists!");
+                }
+
+                System.out.println("Done");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            /*
             for (int i = currentCadet; i < Cadet.CadetInfo.values().length; i++) {
                 out.println(Cadet.CadetInfo.values()[i].filepath);
                 break;
             }
+            */
         }
 
         public void cadetsList() {
@@ -233,8 +284,6 @@ public class Server {
                             break;
 
                         case ("moreinfo"):
-
-
                             showCompanyFile();
                             // out.println("CHOOSE NEXT OR MATCH");
                             System.out.println("escuta antes do while do moreinfo");
