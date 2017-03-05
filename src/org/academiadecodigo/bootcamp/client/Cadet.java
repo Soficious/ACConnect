@@ -1,11 +1,14 @@
 package org.academiadecodigo.bootcamp.client;
 
 import java.io.File;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Renato on 28/02/17.
  */
 public class Cadet extends Client {
+
+    private CopyOnWriteArrayList <Company> matchedCompaniesList = new CopyOnWriteArrayList<>();
 
     /**
      * Class construtor.
@@ -13,8 +16,8 @@ public class Cadet extends Client {
      * insticiates a File with the correct showCompanyFile using the name
      *
      */
-    public Cadet() {
-        super();
+    public Cadet(String name) {
+        super(name);
     }
 
 
@@ -73,9 +76,9 @@ public class Cadet extends Client {
         }
 
     }
-
+/*
     public static void main(String[] args) {
-        Cadet a = new Cadet();
+        Cadet a = new Cadet(String name);
         a.nextCompany();
         a.nextCompanyMotto();
         a.nextCompanyMotto();
@@ -83,7 +86,7 @@ public class Cadet extends Client {
         a.nextCompanyMotto();
 
     }
-
+*/
     public enum CadetInfo {
 
 

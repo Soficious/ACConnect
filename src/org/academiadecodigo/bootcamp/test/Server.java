@@ -1,18 +1,30 @@
 package org.academiadecodigo.bootcamp.test;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import org.academiadecodigo.bootcamp.client.Cadet;
 import org.academiadecodigo.bootcamp.client.Company;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by ricardo on 27-02-2017.
  */
 
 public class Server {
+
+    private CopyOnWriteArrayList<Cadet> cadetTypelist;
+    private CopyOnWriteArrayList<Company> companyTypelist;
+
+    public Server() {
+
+        cadetTypelist = new CopyOnWriteArrayList<>();
+        companyTypelist = new CopyOnWriteArrayList<>();
+
+    }
 
     private static int getPort() {
 
@@ -40,18 +52,24 @@ public class Server {
                 Thread thread = new Thread(clienthandler);
 
                 thread.start();
-
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
+    /*
+      private void pushCadettoList(String name) {
+
+          userTypelist.add(new Cadet(name));
+      }
+
+      private void pushCompanytoList(String name) {
+          companyTypelist.add(new Company (name));
+      }
+  */
     private static class Clienthandler implements Runnable {
+
 
         private int currentCompany = -1;
         private int currentCadet = -1;
@@ -124,27 +142,33 @@ public class Server {
 
                     switch (CadetMessage) {
                         case ("next"):
-                           // out.println("HERE'S ONE CADET ....CHOOSE,NEXT OR MORE INFO");
+                            // out.println("HERE'S ONE CADET ....CHOOSE,NEXT OR MORE INFO");
                             showCadetsPitch();
                             break;
 
                         case ("moreinfo"):
                             showCadetsFile();
-                           // out.println("CHOOSE NEXT OR MATCH");
+                            out.println("CHOOSE NEXT OR MATCH");
 
                             CadetMessage = in.readLine();
+
+                            while (CadetMessage.equals("moreinfo")) {
+                                System.out.println("no while do moreinfo");
+                                out.println("choose next or match");
+                                CadetMessage = in.readLine();
+                            }
                             if (CadetMessage.equals("next")) {
-                               // out.println("HERE'S ONE CADET ....CHOOSE,NEXT OR MORE INFO");
+                                // out.println("HERE'S ONE CADET ....CHOOSE,NEXT OR MORE INFO");
                                 showCadetsPitch();
                                 break;
                             } else {
-                               // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MORE INFO");
+                                // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MORE INFO");
                                 showCadetsPitch();
                                 break;
                             }
 
                         case ("match"):
-                           // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MOREINFO");
+                            // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MOREINFO");
                             showCadetsPitch();
                             break;
 
@@ -171,11 +195,28 @@ public class Server {
             }
         }
 
+        public void matchCadet() {
+
+            HashMap<Integer, String> mapCadet = new HashMap<Integer, String>();
+            mapCadet.put(1, String.valueOf(currentCadet));
+
+            mapCadet.put(1, "one");
+            mapCadet.put(2, "two");
+            Iterator<Integer> keyIterator = mapCadet.keySet().iterator();
+
+            while (keyIterator.hasNext()) {
+                Integer key = keyIterator.next();
+                System.out.println();
+            }
+
+
+        }
+
         public void companyList() {
 
             try {
 
-               // out.println("HERE'S A COMPANY...choose MORE INFO, MATCH OR NEXT");
+                // out.println("HERE'S A COMPANY...choose MORE INFO, MATCH OR NEXT");
                 showCompanysMoto();
 
 
@@ -190,12 +231,16 @@ public class Server {
                             break;
 
                         case ("moreinfo"):
-                            showCompanyFile();
-                           // out.println("CHOOSE NEXT OR MATCH");
-                            CompanyMessage = in.readLine();
 
-                            while (!CompanyMessage.equals("next") && !(!CompanyMessage.equals("match"))) {
-                                //out.println("choose next or match");
+
+                            showCompanyFile();
+                            // out.println("CHOOSE NEXT OR MATCH");
+                            System.out.println("escuta antes do while do moreinfo");
+                            //  CompanyMessage = in.readLine();
+
+                            while (CompanyMessage.equals("moreinfo")) {
+                                System.out.println("no while do moreinfo");
+                                out.println("choose next or match");
                                 CompanyMessage = in.readLine();
                             }
                             if (CompanyMessage.equals("next")) {
@@ -208,11 +253,12 @@ public class Server {
                                 break;
                             }
 
+
                         case ("match"):
+                            System.out.println("dentro do match");
                             //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
                             showCompanysMoto();
                             break;
-
                     }
                     if (CompanyMessage.equals("/close")) {
 
@@ -251,6 +297,8 @@ public class Server {
 
                 out.println("What is your name");
                 String message = in.readLine();
+                //pushNametoList(message);
+                String name = message;
                 out.println("What are you?");
                 System.out.println("listening");
                 message = in.readLine();
@@ -276,6 +324,8 @@ public class Server {
                 e.printStackTrace();
             }
         }
+
+
     }
 
 //    public enum CompanyInfo {

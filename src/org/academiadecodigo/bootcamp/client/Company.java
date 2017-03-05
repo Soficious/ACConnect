@@ -14,8 +14,8 @@ public class Company extends Client {
      * insticiates a File with the correct showCompanyFile using the name
      *
      */
-    public Company() {
-        super();
+    public Company(String name) {
+        super(name);
     }
 
 
@@ -77,7 +77,7 @@ public class Company extends Client {
         }
 
     }
-
+/*
     public static void main(String[] args) {
         Company a = new Company();
         a.nextCompany();
@@ -87,7 +87,7 @@ public class Company extends Client {
         a.nextCompanyMotto();
 
     }
-
+*/
     public enum CompanyInfo {
         GOOGLE("Are you feeling lucky?", "resources/company/logicalis.pdf"),
         LOGICALIS("We're Dutch and super cool!", "resources/company/logicalis.pdf"),
