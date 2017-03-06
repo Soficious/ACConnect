@@ -90,11 +90,11 @@ public class Cadet extends Client {
     public enum CadetInfo {
 
 
-        RENATO("I'm always the loudest person in the room!", "resources/codecadet/Renato.pdf"),
-        SOFIA("Eh pa, honestamente não concordo!", "resources/codecadet/Sofia.pdf"),
-        RICARDO("I have no battery!", "resources/codecadet/Ricardo.pdf"),
-        JESSE("I fucking hate Fundão!", "resources/codecadet/Jesse.pdf"),
-        PEDRO("My battery died too!", "resources/codecadet/Pedro.pdf");
+        RENATO("I'm always the loudest person in the room!", "resources/codecadet/codeCadet.pdf"),
+        SOFIA("Eh pa, honestamente não concordo!", "resources/codecadet/codeCadet.pdf"),
+        RICARDO("I have no battery!", "resources/codecadet/codeCadet.pdf"),
+        JESSE("I fucking hate Fundão!", "resources/codecadet/codeCadet.pdf"),
+        PEDRO("My battery died too!", "resources/codecadet/codeCadet.pdf");
 
 
         public final String saying;

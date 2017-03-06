@@ -92,7 +92,7 @@ public class Company extends Client {
         GOOGLE("Are you feeling lucky?", "resources/company/logicalis.pdf"),
         LOGICALIS("We're Dutch and super cool!", "resources/company/logicalis.pdf"),
         MICROSOFT("Open the Windows!", "resources/company/logicalis.pdf"),
-        ALTRAN("America first, France second!", "resources/company/logicalis.pdf"),
+        ALTRAN("America first, France second!", "resources/company/altran.pdf"),
         ACADEMIA("Stay here and Padawan with us!", "resources/company/logicalis.pdf"),
         READINESSIT("Get ready to travel!", "resources/company/logicalis.pdf");
 
