@@ -122,7 +122,6 @@ public class Server {
 
             try {
 
-                //out.println("HERE'S A CANDIDATE ...choose MOREINFO, MATCH OR NEXT");
                 showCadetsPitch();
 
                 while (true) {
@@ -131,35 +130,28 @@ public class Server {
 
                     switch (CadetMessage) {
                         case ("next"):
-                            // out.println("HERE'S ONE CADET ....CHOOSE,NEXT OR MORE INFO");
                             showCadetsPitch();
                             break;
 
                         case ("moreinfo"):
                             showCadetsFile();
-                            out.println("CHOOSE NEXT OR MATCH");
-
                             CadetMessage = in.readLine();
 
-                            while (CadetMessage.equals("moreinfo")) {
-                                System.out.println("no while do moreinfo");
+                            while (CadetMessage.equals("moreinfo") && !CadetMessage.equals("next")) {
                                 out.println("choose next or match");
                                 CadetMessage = in.readLine();
                             }
-                            if (CadetMessage.equals("next")) {
-                                // out.println("HERE'S ONE CADET ....CHOOSE,NEXT OR MORE INFO");
+
+                            if (CadetMessage.equals("match")) {
                                 showCadetsPitch();
                                 break;
-                            } else {
-                                //TODO ADD TO LIST
-                                // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MORE INFO");
-                                showCadetsPitch();
-                                break;
+
                             }
+                                showCadetsPitch();
+                                break;
+
 
                         case ("match"):
-                            //TODO ADD TO LIST
-                            // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MOREINFO");
                             showCadetsPitch();
                             break;
 
@@ -190,9 +182,7 @@ public class Server {
 
             try {
 
-                // out.println("HERE'S A COMPANY...choose MORE INFO, MATCH OR NEXT");
                 showCompanysMoto();
-
 
                 while (true) {
 
@@ -200,39 +190,27 @@ public class Server {
 
                     switch (CompanyMessage) {
                         case ("next"):
-                            //out.println("HERE'S ONE COMPANY...CHOOSE, NEXT OR MORE INFO");
                             showCompanysMoto();
                             break;
 
                         case ("moreinfo"):
-
-
                             showCompanyFile();
-                            // out.println("CHOOSE NEXT OR MATCH");
-                            System.out.println("escuta antes do while do moreinfo");
-                            //  CompanyMessage = in.readLine();
+                            CompanyMessage = in.readLine();
 
-                            while (CompanyMessage.equals("moreinfo")) {
-                                System.out.println("no while do moreinfo");
+                            while (!CompanyMessage.equals("match") && !CompanyMessage.equals("next")) {
                                 out.println("choose next or match");
                                 CompanyMessage = in.readLine();
                             }
-                            if (CompanyMessage.equals("next")) {
-                                //out.println("HERE'S ONE COMPANY...CHOOSE, NEXT OR MORE INFO");
-                                showCompanysMoto();
-                                break;
-                            } else {
-                                //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
-                                //TODO ADD TO LIST
+
+                            if (CompanyMessage.equals("match")) {
                                 showCompanysMoto();
                                 break;
                             }
+                            showCompanysMoto();
+                            break;
 
 
                         case ("match"):
-                            System.out.println("dentro do match");
-                            //TODO ADD TO LIST
-                            //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
                             showCompanysMoto();
                             break;
                     }
@@ -244,9 +222,14 @@ public class Server {
                         break;
                     }
                 }
-            } catch (IOException e) {
+            } catch (
+                    IOException e)
+
+            {
                 e.printStackTrace();
-            } finally {
+            } finally
+
+            {
 
                 try {
                     socket.close();
@@ -257,6 +240,7 @@ public class Server {
                 }
 
             }
+
         }
 
 
