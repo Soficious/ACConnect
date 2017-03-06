@@ -1,14 +1,19 @@
 package org.academiadecodigo.bootcamp.test;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.academiadecodigo.bootcamp.client.Cadet;
 import org.academiadecodigo.bootcamp.client.Company;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+
 
 /**
  * Created by ricardo on 27-02-2017.
@@ -16,14 +21,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server {
 
-    private CopyOnWriteArrayList<Cadet> cadetTypelist;
-    private CopyOnWriteArrayList<Company> companyTypelist;
+    final static List<String> cadets = new LinkedList<>();
+    final static List<String> companies = new LinkedList<>();
 
-    public Server() {
+    static void createCadetsList() {
+        for (int i = 0; i < Cadet.CadetInfo.values().length; i++) {
+            cadets.add(String.valueOf(Cadet.CadetInfo.values()[i]));
+        }
+    }
 
-        cadetTypelist = new CopyOnWriteArrayList<>();
-        companyTypelist = new CopyOnWriteArrayList<>();
-
+    static void createCompanyList() {
+        for (int i = 0; i < Company.CompanyInfo.values().length; i++) {
+            companies.add(String.valueOf(Company.CompanyInfo.values()[i]));
+        }
     }
 
     private static int getPort() {
@@ -42,6 +52,11 @@ public class Server {
         try {
             serverSocket = new ServerSocket(getPort());
 
+            createCadetsList();
+            System.out.println(cadets);
+            createCompanyList();
+            System.out.println(companies);
+
             while (socketListener) {
 
                 Socket clientSocket = new Socket();
@@ -58,18 +73,11 @@ public class Server {
         }
     }
 
-    /*
-      private void pushCadettoList(String name) {
+    static List<String> companyMatchList = new LinkedList<>();
+    static List<String> cadetMatchList = new LinkedList<>();
+    static List<String> perfectMatchList = new LinkedList<>();
 
-          userTypelist.add(new Cadet(name));
-      }
-
-      private void pushCompanytoList(String name) {
-          companyTypelist.add(new Company (name));
-      }
-  */
     private static class Clienthandler implements Runnable {
-
 
         private int currentCompany = -1;
         private int currentCadet = -1;
@@ -79,8 +87,49 @@ public class Server {
         String CompanyMessage;
         String CadetMessage;
 
+
         public Clienthandler(Socket socket) {
             this.socket = socket;
+        }
+
+        public void cadetLogin() {
+            out.println("What is your name?");
+
+            String userIn = null;
+            try {
+                userIn = in.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            for (String cadet : cadets) {
+                if (!cadet.equals(userIn.toUpperCase())) {
+                    out.println("please try again");
+                }
+                out.println("successful login - press enter to see the companies");
+                companyList();
+                break;
+            }
+        }
+
+        public void companyLogin() {
+            out.println("What is your name?");
+
+            String userIn = null;
+            try {
+                userIn = in.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            for (String company : companies) {
+                if (!company.equals(userIn.toUpperCase())) {
+                    out.println("please try again");
+                }
+                out.println("successful login - press enter to see the candidates");
+                cadetsList();
+                break;
+            }
         }
 
         public void showCompanysMoto() {
@@ -93,9 +142,7 @@ public class Server {
 
                 out.println(Company.CompanyInfo.values()[i].description);
                 break;
-
             }
-
         }
 
         public void showCadetsPitch() {
@@ -129,13 +176,27 @@ public class Server {
             }
         }
 
+//        public void createPerfectMatchList() {
+//
+//            for (int i = 0; i < cadetMatchList.size(); i++) {
+//                if (String.valueOf(Cadet.CadetInfo.values()[currentCadet]).equals(Cadet.CadetInfo.JESSE)) {
+//                    perfectMatchList.add(String.valueOf(Cadet.CadetInfo.values()[currentCadet]));
+//                }
+//            }
+//
+//            for (int i = 0; i < companyMatchList.size(); i++) {
+//                if (String.valueOf(Company.CompanyInfo.values()[currentCompany]).equals(Company.CompanyInfo.GOOGLE)) {
+//                    perfectMatchList.add(String.valueOf(Company.CompanyInfo.values()[currentCompany]));
+//                }
+//            }
+//
+//        }
+
         public void cadetsList() {
 
             try {
-
                 //out.println("HERE'S A CANDIDATE ...choose MOREINFO, MATCH OR NEXT");
                 showCadetsPitch();
-
                 while (true) {
 
                     CadetMessage = in.readLine();
@@ -146,13 +207,13 @@ public class Server {
                             showCadetsPitch();
                             break;
 
-                        case ("moreinfo"):
+                        case ("more info"):
                             showCadetsFile();
                             out.println("CHOOSE NEXT OR MATCH");
 
                             CadetMessage = in.readLine();
 
-                            while (CadetMessage.equals("moreinfo")) {
+                            while (CadetMessage.equals("more info")) {
                                 System.out.println("no while do moreinfo");
                                 out.println("choose next or match");
                                 CadetMessage = in.readLine();
@@ -162,14 +223,15 @@ public class Server {
                                 showCadetsPitch();
                                 break;
                             } else {
-                                //TODO ADD TO LIST
+                                companyMatchList.add(String.valueOf(Cadet.CadetInfo.values()[currentCadet]));
                                 // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MORE INFO");
                                 showCadetsPitch();
                                 break;
                             }
 
                         case ("match"):
-                            //TODO ADD TO LIST
+                            companyMatchList.add(String.valueOf(Cadet.CadetInfo.values()[currentCadet]));
+                            out.println(companyMatchList);
                             // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MOREINFO");
                             showCadetsPitch();
                             break;
@@ -197,23 +259,6 @@ public class Server {
             }
         }
 
-        public void matchCadet() {
-
-            HashMap<Integer, String> mapCadet = new HashMap<Integer, String>();
-            mapCadet.put(1, String.valueOf(currentCadet));
-
-            mapCadet.put(1, "one");
-            mapCadet.put(2, "two");
-            Iterator<Integer> keyIterator = mapCadet.keySet().iterator();
-
-            while (keyIterator.hasNext()) {
-                Integer key = keyIterator.next();
-                System.out.println();
-            }
-
-
-        }
-
         public void companyList() {
 
             try {
@@ -232,7 +277,7 @@ public class Server {
                             showCompanysMoto();
                             break;
 
-                        case ("moreinfo"):
+                        case ("more info"):
 
 
                             showCompanyFile();
@@ -240,7 +285,7 @@ public class Server {
                             System.out.println("escuta antes do while do moreinfo");
                             //  CompanyMessage = in.readLine();
 
-                            while (CompanyMessage.equals("moreinfo")) {
+                            while (CompanyMessage.equals("more info")) {
                                 System.out.println("no while do moreinfo");
                                 out.println("choose next or match");
                                 CompanyMessage = in.readLine();
@@ -251,7 +296,7 @@ public class Server {
                                 break;
                             } else {
                                 //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
-                                //TODO ADD TO LIST
+                                cadetMatchList.add(String.valueOf(Company.CompanyInfo.values()[currentCompany]));
                                 showCompanysMoto();
                                 break;
                             }
@@ -259,7 +304,8 @@ public class Server {
 
                         case ("match"):
                             System.out.println("dentro do match");
-                            //TODO ADD TO LIST
+                            cadetMatchList.add(String.valueOf(Company.CompanyInfo.values()[currentCompany]));
+                            out.println(cadetMatchList);
                             //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
                             showCompanysMoto();
                             break;
@@ -299,37 +345,45 @@ public class Server {
 
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-                out.println("What is your name");
+                out.println("Are you a Cadet or a Company?");
                 String message = in.readLine();
-                //TODO METHOD LOGIN VERIFICATION OR ADD NEWONE
-                out.println("What are you?");
+                if (message.equals("Cadet")) {
+                    cadetLogin();
+//                    System.out.println("i'm here");
+//                    out.println("press enter to continue");
+//                    message = in.readLine();
+
+                } else if (message.equals("Company")) {
+                    companyLogin();
+
+                } else {
+                    out.println("Please try again. Are you a Cadet or a Company?");
+                }
                 System.out.println("listening");
                 message = in.readLine();
 
-                while (!message.equals("cadet") && !message.equals("company")) {
-                    out.println("wrong command: write company or cadet");
-                    message = in.readLine();
-                }
+//                    while (!message.equals("cadet") && !message.equals("company")) {
+//                        out.println("wrong command: write company or cadet");
+//                        message = in.readLine();
+//                    }
+//
+//                    if (message.equals("cadet")) {
+//                        System.out.println("in if cadet of run");
+//                        companyList();
+//                    } else {
+//                        System.out.println("in if company of run");
+//                        cadetsList();
+//                    }
 
-                if (message.equals("cadet")) {
-                    System.out.println("in if cadet of run");
-                    companyList();
-                } else {
-                    System.out.println("in if company of run");
-                    cadetsList();
-                }
-
-
-            } catch (
-                    IOException e)
-
-            {
-                e.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
+
         }
-
-
     }
+
+
+}
 
 //    public enum CompanyInfo {
 //        GOOGLE("Are you feeling lucky?", "resources/company/logicalis.pdf"),
@@ -369,7 +423,8 @@ public class Server {
 //
 //
 //    }
-}
+
+
 
 
 
