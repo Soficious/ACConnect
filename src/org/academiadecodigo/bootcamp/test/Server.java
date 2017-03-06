@@ -88,7 +88,7 @@ public class Server {
 
             currentCompany++;
             if (currentCompany == Company.CompanyInfo.values().length) {
-                currentCompany = 0;
+                currentCompany = -1;
             }
             for (int i = currentCompany; i < Company.CompanyInfo.values().length; i++) {
 
@@ -103,7 +103,7 @@ public class Server {
 
             currentCadet++;
             if (currentCadet == Cadet.CadetInfo.values().length) {
-                currentCadet = 0;
+                currentCadet = -1;
             }
             for (int i = currentCadet; i < Cadet.CadetInfo.values().length; i++) {
 
@@ -113,7 +113,6 @@ public class Server {
             }
 
         }
-
 
 
         public void showCompanyFile() {
@@ -130,7 +129,7 @@ public class Server {
                     }
 
                 } else {
-                    System.out.println("File is not exists!");
+                    System.out.println("File does not exist!");
                 }
 
                 System.out.println("Done");
@@ -183,6 +182,11 @@ public class Server {
         public void cadetsList() {
 
             try {
+
+
+                // out.println("HERE'S A COMPANY...choose MORE INFO, MATCH OR NEXT");
+                showCadetsPitch();
+
 
                 //out.println("HERE'S A CANDIDATE ...choose MOREINFO, MATCH OR NEXT");
                 showCadetsPitch();
@@ -248,6 +252,7 @@ public class Server {
             }
         }
 
+
         public void matchCadet() {
 
             HashMap<Integer, String> mapCadet = new HashMap<Integer, String>();
@@ -262,10 +267,9 @@ public class Server {
                 System.out.println();
             }
 
-
         }
 
-        public void companyList() {
+        public void companyList() throws IOException {
 
             try {
 
@@ -277,54 +281,57 @@ public class Server {
 
                     CompanyMessage = in.readLine();
 
-                    switch (CompanyMessage) {
-                        case ("next"):
-                            //out.println("HERE'S ONE COMPANY...CHOOSE, NEXT OR MORE INFO");
-                            showCompanysMoto();
-                            break;
+                    while (!CompanyMessage.equals("match") && !CompanyMessage.equals("next")) {
 
-                        case ("moreinfo"):
-                            showCompanyFile();
-                            // out.println("CHOOSE NEXT OR MATCH");
-                            System.out.println("escuta antes do while do moreinfo");
-                            //  CompanyMessage = in.readLine();
 
-                            while (CompanyMessage.equals("moreinfo")) {
-                                System.out.println("no while do moreinfo");
-                                out.println("choose next or match");
-                                CompanyMessage = in.readLine();
-                            }
-                            if (CompanyMessage.equals("next")) {
+                        switch (CompanyMessage) {
+                            case ("next"):
                                 //out.println("HERE'S ONE COMPANY...CHOOSE, NEXT OR MORE INFO");
                                 showCompanysMoto();
                                 break;
-                            } else {
-                                //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
+
+                            case ("moreinfo"):
+                                showCompanyFile();
+                                // out.println("CHOOSE NEXT OR MATCH");
+                                System.out.println("escuta antes do while do moreinfo");
+                                //  CompanyMessage = in.readLine();
+
+                                while (CompanyMessage.equals("moreinfo")) {
+                                    System.out.println("no while do moreinfo");
+                                    out.println("choose next or match");
+                                    CompanyMessage = in.readLine();
+                                }
+                                if (CompanyMessage.equals("next")) {
+                                    //out.println("HERE'S ONE COMPANY...CHOOSE, NEXT OR MORE INFO");
+                                    showCompanysMoto();
+                                    break;
+                                } else {
+                                    //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
+                                    //TODO ADD TO LIST
+                                    showCompanysMoto();
+                                    break;
+                                }
+
+
+                            case ("match"):
+                                System.out.println("dentro do match");
                                 //TODO ADD TO LIST
+                                //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
                                 showCompanysMoto();
                                 break;
-                            }
+                        }
+                        if (CompanyMessage.equals("/close")) {
 
-
-                        case ("match"):
-                            System.out.println("dentro do match");
-                            //TODO ADD TO LIST
-                            //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
-                            showCompanysMoto();
+                            out.close();
+                            in.close();
+                            socket.close();
                             break;
-                    }
-                    if (CompanyMessage.equals("/close")) {
-
-                        out.close();
-                        in.close();
-                        socket.close();
-                        break;
+                        }
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
-
                 try {
                     socket.close();
                     out.close();
