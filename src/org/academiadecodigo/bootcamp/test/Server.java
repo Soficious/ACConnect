@@ -4,6 +4,7 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import org.academiadecodigo.bootcamp.client.Cadet;
 import org.academiadecodigo.bootcamp.client.Company;
 
+import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -58,6 +59,16 @@ public class Server {
         }
     }
 
+    /*
+      private void pushCadettoList(String name) {
+
+          userTypelist.add(new Cadet(name));
+      }
+
+      private void pushCompanytoList(String name) {
+          companyTypelist.add(new Company (name));
+      }
+  */
     private static class Clienthandler implements Runnable {
 
         private int currentCompany = -1;
@@ -76,7 +87,7 @@ public class Server {
 
             currentCompany++;
             if (currentCompany == Company.CompanyInfo.values().length) {
-                currentCompany = 0;
+                currentCompany = -1;
             }
             for (int i = currentCompany; i < Company.CompanyInfo.values().length; i++) {
 
@@ -91,7 +102,7 @@ public class Server {
 
             currentCadet++;
             if (currentCadet == Cadet.CadetInfo.values().length) {
-                currentCadet = 0;
+                currentCadet = -1;
             }
             for (int i = currentCadet; i < Cadet.CadetInfo.values().length; i++) {
 
@@ -102,19 +113,54 @@ public class Server {
 
         }
 
+
         public void showCompanyFile() {
 
-            for (int i = currentCompany; i < Company.CompanyInfo.values().length; i++) {
-                out.println(Company.CompanyInfo.values()[i].file);
-                break;
+            try {
+
+                File pdfFile = new File(String.valueOf(Company.CompanyInfo.values()[currentCompany].file));
+                if (pdfFile.exists()) {
+
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(pdfFile);
+                    } else {
+                        System.out.println("Awt Desktop is not supported!");
+                    }
+
+                } else {
+                    System.out.println("File does not exist!");
+                }
+
+                System.out.println("Done");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
+
         }
 
-        public void showCadetsFile() {
 
-            for (int i = currentCadet; i < Cadet.CadetInfo.values().length; i++) {
-                out.println(Cadet.CadetInfo.values()[i].filepath);
-                break;
+        public void showCadetsFile() {
+            try {
+
+
+                File pdfFile = new File(String.valueOf(Cadet.CadetInfo.values()[currentCadet].filepath));
+                if (pdfFile.exists()) {
+
+                    if (Desktop.isDesktopSupported()) {
+                        Desktop.getDesktop().open(pdfFile);
+                    } else {
+                        System.out.println("Awt Desktop is not supported!");
+                    }
+
+                } else {
+                    System.out.println("File is not exists!");
+                }
+
+                System.out.println("Done cadets file");
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
 
@@ -135,11 +181,13 @@ public class Server {
 
                         case ("moreinfo"):
                             showCadetsFile();
+                            out.println("choose next or match");
                             CadetMessage = in.readLine();
 
-                            while (CadetMessage.equals("moreinfo") && !CadetMessage.equals("next")) {
+                            while (!CadetMessage.equals("match") && !CadetMessage.equals("next")) {
                                 out.println("choose next or match");
                                 CadetMessage = in.readLine();
+
                             }
 
                             if (CadetMessage.equals("match")) {
@@ -147,12 +195,15 @@ public class Server {
                                 break;
 
                             }
-                                showCadetsPitch();
-                                break;
+                            showCadetsPitch();
+                            break;
 
 
                         case ("match"):
                             showCadetsPitch();
+                            break;
+                        default:
+                            out.println("wrong command: please choose next match or moreinfo");
                             break;
 
                     }
@@ -178,6 +229,23 @@ public class Server {
             }
         }
 
+        public void matchCadet() {
+
+            HashMap<Integer, String> mapCadet = new HashMap<Integer, String>();
+            mapCadet.put(1, String.valueOf(currentCadet));
+
+            mapCadet.put(1, "one");
+            mapCadet.put(2, "two");
+            Iterator<Integer> keyIterator = mapCadet.keySet().iterator();
+
+            while (keyIterator.hasNext()) {
+                Integer key = keyIterator.next();
+                System.out.println();
+            }
+
+
+        }
+
         public void companyList() {
 
             try {
@@ -195,6 +263,7 @@ public class Server {
 
                         case ("moreinfo"):
                             showCompanyFile();
+                            out.print("choose next or match");
                             CompanyMessage = in.readLine();
 
                             while (!CompanyMessage.equals("match") && !CompanyMessage.equals("next")) {
@@ -213,6 +282,9 @@ public class Server {
                         case ("match"):
                             showCompanysMoto();
                             break;
+                        default:
+                            out.println("wrong command please choose next, match or more info");
+
                     }
                     if (CompanyMessage.equals("/close")) {
 
@@ -220,6 +292,7 @@ public class Server {
                         in.close();
                         socket.close();
                         break;
+
                     }
                 }
             } catch (
@@ -240,7 +313,6 @@ public class Server {
                 }
 
             }
-
         }
 
 
@@ -270,10 +342,10 @@ public class Server {
                 if (message.equals("cadet")) {
                     System.out.println("in if cadet of run");
                     companyList();
-                } else {
-                    System.out.println("in if company of run");
-                    cadetsList();
+
                 }
+                System.out.println("in if company of run");
+                cadetsList();
 
 
             } catch (
@@ -286,8 +358,9 @@ public class Server {
 
 
     }
-
 }
+
+
 
 
 
