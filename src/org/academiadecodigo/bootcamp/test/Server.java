@@ -1,7 +1,8 @@
 package org.academiadecodigo.bootcamp.test;
 
-<<<<<<< HEAD
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.academiadecodigo.bootcamp.client.Cadet;
 import org.academiadecodigo.bootcamp.client.Company;
 
@@ -9,17 +10,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-=======
-import org.academiadecodigo.bootcamp.client.Cadet;
-import org.academiadecodigo.bootcamp.client.Company;
-
 import java.awt.*;
 import java.io.*;
->>>>>>> master
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.List;
+
 import java.util.Scanner;
 
 
@@ -59,11 +54,9 @@ public class Server {
 
         try {
             serverSocket = new ServerSocket(getPort());
-
             createCadetsList();
-            System.out.println(cadets);
             createCompanyList();
-            System.out.println(companies);
+
 
             while (socketListener) {
 
@@ -85,6 +78,7 @@ public class Server {
     static List<String> cadetMatchList = new LinkedList<>();
     static List<String> perfectMatchList = new LinkedList<>();
 
+
     private static class Clienthandler implements Runnable {
 
         private int currentCompany = -1;
@@ -100,7 +94,7 @@ public class Server {
             this.socket = socket;
         }
 
-        public void cadetLogin() {
+        public void cadetLogin() throws IOException {
             out.println("What is your name?");
 
             String userIn = null;
@@ -120,7 +114,7 @@ public class Server {
             }
         }
 
-        public void companyLogin() {
+        public void companyLogin() throws IOException {
             out.println("What is your name?");
 
             String userIn = null;
@@ -235,41 +229,25 @@ public class Server {
 //
 //        }
 
-        public void cadetsList() {
-
+        public void cadetsList() throws IOException {
             try {
-<<<<<<< HEAD
                 //out.println("HERE'S A CANDIDATE ...choose MOREINFO, MATCH OR NEXT");
-=======
-
->>>>>>> master
                 showCadetsPitch();
                 while (true) {
-
                     CadetMessage = in.readLine();
-
                     switch (CadetMessage) {
                         case ("next"):
                             showCadetsPitch();
                             break;
-
                         case ("more info"):
                             showCadetsFile();
                             out.println("Choose next or match");
                             CadetMessage = in.readLine();
 
-<<<<<<< HEAD
-                            while (CadetMessage.equals("more info")) {
-                                System.out.println("no while do moreinfo");
-                                out.println("choose next or match");
-=======
                             while (!CadetMessage.equals("match") && !CadetMessage.equals("next")) {
                                 out.println("Choose next or match");
->>>>>>> master
                                 CadetMessage = in.readLine();
-
                             }
-<<<<<<< HEAD
                             if (CadetMessage.equals("next")) {
                                 // out.println("HERE'S ONE CADET ....CHOOSE,NEXT OR MORE INFO");
                                 showCadetsPitch();
@@ -277,25 +255,19 @@ public class Server {
                             } else {
                                 companyMatchList.add(String.valueOf(Cadet.CadetInfo.values()[currentCadet]));
                                 // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MORE INFO");
-=======
-
+                            }
                             if (CadetMessage.equals("match")) {
->>>>>>> master
                                 showCadetsPitch();
                                 break;
-
                             }
                             showCadetsPitch();
                             break;
-
-
                         case ("match"):
-<<<<<<< HEAD
+
                             companyMatchList.add(String.valueOf(Cadet.CadetInfo.values()[currentCadet]));
                             out.println(companyMatchList);
                             // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MOREINFO");
-=======
->>>>>>> master
+
                             showCadetsPitch();
                             break;
                         default:
@@ -311,9 +283,14 @@ public class Server {
                         break;
                     }
                 }
-            } catch (IOException e) {
+            } catch (
+                    IOException e)
+
+            {
                 e.printStackTrace();
-            } finally {
+            } finally
+
+            {
 
                 try {
                     socket.close();
@@ -323,9 +300,11 @@ public class Server {
                     e.printStackTrace();
                 }
             }
+
         }
 
-        public void companyList() {
+
+        public void companyList() throws IOException {
 
             try {
 
@@ -340,18 +319,15 @@ public class Server {
                             showCompanysMoto();
                             break;
 
-<<<<<<< HEAD
+
                         case ("more info"):
 
 
-=======
-                        case ("moreinfo"):
->>>>>>> master
                             showCompanyFile();
                             out.print("choose next or match");
                             CompanyMessage = in.readLine();
 
-<<<<<<< HEAD
+
                             while (CompanyMessage.equals("more info")) {
                                 System.out.println("no while do moreinfo");
                                 out.println("choose next or match");
@@ -364,52 +340,47 @@ public class Server {
                             } else {
                                 //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
                                 cadetMatchList.add(String.valueOf(Company.CompanyInfo.values()[currentCompany]));
-=======
-                            while (!CompanyMessage.equals("match") && !CompanyMessage.equals("next")) {
-                                out.println("choose next or match");
-                                CompanyMessage = in.readLine();
-                            }
 
-                            if (CompanyMessage.equals("match")) {
->>>>>>> master
+                                while (!CompanyMessage.equals("match") && !CompanyMessage.equals("next")) {
+                                    out.println("choose next or match");
+                                    CompanyMessage = in.readLine();
+                                }
+
+                                if (CompanyMessage.equals("match")) {
+
+                                    showCompanysMoto();
+                                    break;
+                                }
                                 showCompanysMoto();
                                 break;
+
                             }
-                            showCompanysMoto();
-                            break;
-
-
                         case ("match"):
-<<<<<<< HEAD
+
                             System.out.println("dentro do match");
                             cadetMatchList.add(String.valueOf(Company.CompanyInfo.values()[currentCompany]));
                             out.println(cadetMatchList);
                             //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
-=======
->>>>>>> master
+
                             showCompanysMoto();
                             break;
                         default:
                             out.println("wrong command please choose next, match or more info");
 
-                    }
-                    if (CompanyMessage.equals("/close")) {
 
-                        out.close();
-                        in.close();
-                        socket.close();
-                        break;
+                            if (CompanyMessage.equals("/close")) {
 
+                                out.close();
+                                in.close();
+                                socket.close();
+                                break;
+
+                            }
                     }
                 }
-            } catch (
-                    IOException e)
-
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
-            } finally
-
-            {
+            } finally {
 
                 try {
                     socket.close();
@@ -438,28 +409,26 @@ public class Server {
                 String message = in.readLine();
                 if (message.equals("Cadet")) {
                     cadetLogin();
-//                    System.out.println("i'm here");
-//                    out.println("press enter to continue");
-//                    message = in.readLine();
 
                 } else if (message.equals("Company")) {
                     companyLogin();
 
-<<<<<<< HEAD
+
                 } else {
                     out.println("Please try again. Are you a Cadet or a Company?");
                 }
                 System.out.println("listening");
                 message = in.readLine();
-=======
+
                 if (message.equals("cadet")) {
                     System.out.println("in if cadet of run");
                     companyList();
+                    System.out.println("out of the cadet run");
 
                 }
                 System.out.println("in if company of run");
                 cadetsList();
->>>>>>> master
+
 
 //                    while (!message.equals("cadet") && !message.equals("company")) {
 //                        out.println("wrong command: write company or cadet");
@@ -480,59 +449,7 @@ public class Server {
 
         }
     }
-
-
-<<<<<<< HEAD
 }
-
-//    public enum CompanyInfo {
-//        GOOGLE("Are you feeling lucky?", "resources/company/logicalis.pdf"),
-//        LOGICALIS("We're Dutch and super cool!", "resources/company/logicalis.pdf"),
-//        MICROSOFT("Open the Windows!", "resources/company/logicalis.pdf"),
-//        ALTRAN("America first, France second!", "resources/company/logicalis.pdf"),
-//        ACADEMIA("Stay here and Padawan with us!", "resources/company/logicalis.pdf"),
-//        READINESSIT("Get ready to travel!", "resources/company/logicalis.pdf");
-//
-//        public final String description;
-//        public final File file;
-//
-//        CompanyInfo(String desc, String path) {
-//            this.description = desc;
-//            file = new File(path);
-//        }
-//
-//
-//    }
-//
-//    public enum CadetInfo {
-//
-//
-//        RENATO("I'm always the loudest person in the room!", "resources/codecadet/Renato.pdf"),
-//        SOFIA("Eh pa, honestamente não concordo!", "resources/codecadet/Sofia.pdf"),
-//        RICARDO("I have no battery!", "resources/codecadet/Ricardo.pdf"),
-//        JESSE("I fucking hate Fundão!", "resources/codecadet/Jesse.pdf"),
-//        PEDRO("My battery died too!", "resources/codecadet/Pedro.pdf");
-//
-//        public final String saying;
-//        public final File filepath;
-//
-//        CadetInfo(String pitch, String cfile) {
-//            this.saying = pitch;
-//            filepath = new File(cfile);
-//        }
-//
-//
-//    }
-
-
-=======
-    }
-}
->>>>>>> master
-
-
-
-
 
 
 

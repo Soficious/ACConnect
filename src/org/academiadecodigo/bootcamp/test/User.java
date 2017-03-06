@@ -11,7 +11,7 @@ import java.util.Scanner;
 /**
  * Created by Renato on 28/02/17.
  */
-public class User {
+public class  User {
 
     String host;
     int port;
