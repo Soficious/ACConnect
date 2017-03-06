@@ -1,6 +1,5 @@
 package org.academiadecodigo.bootcamp.test;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import org.academiadecodigo.bootcamp.client.Cadet;
 import org.academiadecodigo.bootcamp.client.Company;
 
@@ -181,11 +180,11 @@ public class Server {
 
                         case ("moreinfo"):
                             showCadetsFile();
-                            out.println("choose next or match");
+                            out.println("Choose next or match");
                             CadetMessage = in.readLine();
 
                             while (!CadetMessage.equals("match") && !CadetMessage.equals("next")) {
-                                out.println("choose next or match");
+                                out.println("Choose next or match");
                                 CadetMessage = in.readLine();
 
                             }
@@ -203,7 +202,7 @@ public class Server {
                             showCadetsPitch();
                             break;
                         default:
-                            out.println("wrong command: please choose next match or moreinfo");
+                            out.println("Wrong command: please choose next match or moreinfo");
                             break;
 
                     }
