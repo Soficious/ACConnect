@@ -53,7 +53,7 @@ public class Server {
         boolean socketListener = true;
 
         try {
-            serverSocket = new ServerSocket(getPort());
+            serverSocket = new ServerSocket(9999);
             createCadetsList();
             createCompanyList();
 
@@ -84,57 +84,62 @@ public class Server {
         private int currentCompany = -1;
         private int currentCadet = -1;
         private PrintWriter out = null;
-        BufferedReader in = null;
+        private BufferedReader in = null;
         private Socket socket = null;
-        String CompanyMessage;
-        String CadetMessage;
+        private String userIn;
 
 
         public Clienthandler(Socket socket) {
             this.socket = socket;
         }
 
-        public void cadetLogin() throws IOException {
-            out.println("What is your name?");
+        public synchronized boolean cadetLogin() throws IOException {
 
-            String userIn = null;
+            out.println("What is your name?");
             try {
-                userIn = in.readLine();
+                userIn = in.readLine().toUpperCase();
+
+                for (String cadet : cadets) {
+
+                    if (cadet.equals(userIn)) {
+                        out.println("successful login");
+                        System.out.printf("retorna true");
+                        return true;
+                    }
+                }
+                System.out.printf("sai do for");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            for (String cadet : cadets) {
-                if (!cadet.equals(userIn.toUpperCase())) {
-                    out.println("please try again");
-                }
-                out.println("successful login - press enter to see the companies");
-                companyList();
-                break;
-            }
+            out.println("Please try again");
+            System.out.println("retornar falso");
+            return false;
         }
 
-        public void companyLogin() throws IOException {
-            out.println("What is your name?");
+        public synchronized boolean companyLogin() throws IOException {
 
-            String userIn = null;
+            out.println("What is your name?");
             try {
-                userIn = in.readLine();
+                userIn = in.readLine().toUpperCase();
+
+                for (String company : companies) {
+
+                    if (company.equals(userIn)) {
+                        out.println("successful login");
+                        System.out.printf("retorna true");
+                        return true;
+                    }
+                }
+                System.out.printf("sai do for");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            for (String company : companies) {
-                if (!company.equals(userIn.toUpperCase())) {
-                    out.println("please try again");
-                }
-                out.println("successful login - press enter to see the candidates");
-                cadetsList();
-                break;
-            }
+            out.println("Please try again");
+            System.out.println("retornar falso");
+            return false;
         }
 
-        public void showCompanysMoto() {
+        public synchronized void showCompanysMoto() {
 
             currentCompany++;
             if (currentCompany == Company.CompanyInfo.values().length) {
@@ -147,7 +152,7 @@ public class Server {
             }
         }
 
-        public void showCadetsPitch() {
+        public synchronized void showCadetsPitch() {
 
             currentCadet++;
             if (currentCadet == Cadet.CadetInfo.values().length) {
@@ -163,7 +168,7 @@ public class Server {
         }
 
 
-        public void showCompanyFile() {
+        public synchronized void showCompanyFile() {
 
             try {
 
@@ -189,7 +194,7 @@ public class Server {
         }
 
 
-        public void showCadetsFile() {
+        public synchronized void showCadetsFile() {
             try {
 
 
@@ -208,47 +213,33 @@ public class Server {
 
                 System.out.println("Done cadets file");
 
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
 
-//        public void createPerfectMatchList() {
-//
-//            for (int i = 0; i < cadetMatchList.size(); i++) {
-//                if (String.valueOf(Cadet.CadetInfo.values()[currentCadet]).equals(Cadet.CadetInfo.JESSE)) {
-//                    perfectMatchList.add(String.valueOf(Cadet.CadetInfo.values()[currentCadet]));
-//                }
-//            }
-//
-//            for (int i = 0; i < companyMatchList.size(); i++) {
-//                if (String.valueOf(Company.CompanyInfo.values()[currentCompany]).equals(Company.CompanyInfo.GOOGLE)) {
-//                    perfectMatchList.add(String.valueOf(Company.CompanyInfo.values()[currentCompany]));
-//                }
-//            }
-//
-//        }
 
-        public void cadetsList() throws IOException {
+        public synchronized void cadetsList() throws IOException {
             try {
                 //out.println("HERE'S A CANDIDATE ...choose MOREINFO, MATCH OR NEXT");
                 showCadetsPitch();
                 while (true) {
-                    CadetMessage = in.readLine();
-                    switch (CadetMessage) {
+                    userIn = in.readLine();
+                    switch (userIn) {
                         case ("next"):
                             showCadetsPitch();
                             break;
                         case ("more info"):
                             showCadetsFile();
                             out.println("Choose next or match");
-                            CadetMessage = in.readLine();
+                            userIn = in.readLine();
 
-                            while (!CadetMessage.equals("match") && !CadetMessage.equals("next")) {
+                            while (!userIn.equals("match") && !userIn.equals("next")) {
                                 out.println("Choose next or match");
-                                CadetMessage = in.readLine();
+                                userIn = in.readLine();
                             }
-                            if (CadetMessage.equals("next")) {
+                            if (userIn.equals("next")) {
                                 // out.println("HERE'S ONE CADET ....CHOOSE,NEXT OR MORE INFO");
                                 showCadetsPitch();
                                 break;
@@ -256,7 +247,7 @@ public class Server {
                                 companyMatchList.add(String.valueOf(Cadet.CadetInfo.values()[currentCadet]));
                                 // out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ONE CADET...CHOOSE, NEXT OR MORE INFO");
                             }
-                            if (CadetMessage.equals("match")) {
+                            if (userIn.equals("match")) {
                                 showCadetsPitch();
                                 break;
                             }
@@ -275,7 +266,7 @@ public class Server {
                             break;
 
                     }
-                    if (CadetMessage.equals("/close")) {
+                    if (userIn.equals("/close")) {
 
                         out.close();
                         in.close();
@@ -304,7 +295,7 @@ public class Server {
         }
 
 
-        public void companyList() throws IOException {
+        public synchronized void companyList() throws IOException {
 
             try {
 
@@ -312,9 +303,9 @@ public class Server {
 
                 while (true) {
 
-                    CompanyMessage = in.readLine();
+                    userIn = in.readLine();
 
-                    switch (CompanyMessage) {
+                    switch (userIn) {
                         case ("next"):
                             showCompanysMoto();
                             break;
@@ -325,28 +316,27 @@ public class Server {
 
                             showCompanyFile();
                             out.print("choose next or match");
-                            CompanyMessage = in.readLine();
+                            userIn = in.readLine();
 
 
-                            while (CompanyMessage.equals("more info")) {
+                            while (userIn.equals("more info")) {
                                 System.out.println("no while do moreinfo");
                                 out.println("choose next or match");
-                                CompanyMessage = in.readLine();
+                                userIn = in.readLine();
                             }
-                            if (CompanyMessage.equals("next")) {
-                                //out.println("HERE'S ONE COMPANY...CHOOSE, NEXT OR MORE INFO");
+                            if (userIn.equals("next")) {
                                 showCompanysMoto();
                                 break;
                             } else {
                                 //out.println("YOU CHOOSE MATCH...NOW WAIT...HERE'S ANOTHER COMPANY...CHOOSE, NEXT OR MORE INFO");
                                 cadetMatchList.add(String.valueOf(Company.CompanyInfo.values()[currentCompany]));
 
-                                while (!CompanyMessage.equals("match") && !CompanyMessage.equals("next")) {
+                                while (!userIn.equals("match") && !userIn.equals("next")) {
                                     out.println("choose next or match");
-                                    CompanyMessage = in.readLine();
+                                    userIn = in.readLine();
                                 }
 
-                                if (CompanyMessage.equals("match")) {
+                                if (userIn.equals("match")) {
 
                                     showCompanysMoto();
                                     break;
@@ -368,7 +358,7 @@ public class Server {
                             out.println("wrong command please choose next, match or more info");
 
 
-                            if (CompanyMessage.equals("/close")) {
+                            if (userIn.equals("/close")) {
 
                                 out.close();
                                 in.close();
@@ -397,6 +387,7 @@ public class Server {
         @Override
         public void run() {
 
+
             try {
 
                 System.out.println("enter the run");
@@ -407,49 +398,51 @@ public class Server {
 
                 out.println("Are you a Cadet or a Company?");
                 String message = in.readLine();
+//                if (message.equals("Cadet")) {
+//                    cadetLogin();
+//                    companyList();
+//                } else if (message.equals("Company")) {
+//                    companyLogin();
+//                    cadetsList();
+//                } else {
+//                    out.println("Please try again.");
+//                }
+
+
+                while (!message.equals("Cadet") && !message.equals("Company")) {
+                    out.println("wrong command: write company or cadet");
+                    message = in.readLine();
+                }
+                System.out.println(message);
+
                 if (message.equals("Cadet")) {
-                    cadetLogin();
-
-                } else if (message.equals("Company")) {
-                    companyLogin();
-
-
-                } else {
-                    out.println("Please try again. Are you a Cadet or a Company?");
-                }
-                System.out.println("listening");
-                message = in.readLine();
-
-                if (message.equals("cadet")) {
                     System.out.println("in if cadet of run");
+                    while (!cadetLogin()) {
+                        cadetLogin();
+                    }
+
                     companyList();
-                    System.out.println("out of the cadet run");
+                    return;
+                }if (message.equals("Company")) {
+                    System.out.println("in if company of run");
+                    while (!companyLogin()) {
+                        companyLogin();
+                    }
+                    System.out.println("estou aqui");
+                    cadetsList();
 
                 }
-                System.out.println("in if company of run");
-                cadetsList();
 
+            } catch (IOException e1)
 
-//                    while (!message.equals("cadet") && !message.equals("company")) {
-//                        out.println("wrong command: write company or cadet");
-//                        message = in.readLine();
-//                    }
-//
-//                    if (message.equals("cadet")) {
-//                        System.out.println("in if cadet of run");
-//                        companyList();
-//                    } else {
-//                        System.out.println("in if company of run");
-//                        cadetsList();
-//                    }
-
-            } catch (IOException e1) {
+            {
                 e1.printStackTrace();
             }
 
         }
     }
 }
+
 
 
 
